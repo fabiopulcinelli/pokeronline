@@ -76,10 +76,12 @@ public class Utente {
 	}
 
 	public Utente(Long id, String username, String password, String nome, String cognome,
-			Date dateCreated, StatoUtente stato) {
+			Date dateCreated, StatoUtente stato, Integer esperienzaAccumulata, Integer creditoAccumulato) {
 		this(username, password, nome, cognome, dateCreated);
 		this.id = id;
 		this.stato = stato;
+		this.esperienzaAccumulata = esperienzaAccumulata;
+		this.creditoAccumulato = creditoAccumulato;
 	}
 
 	public Long getId() {
@@ -176,5 +178,21 @@ public class Utente {
 
 	public void setTavoloGioco(Tavolo tavoloGioco) {
 		this.tavoloGioco = tavoloGioco;
+	}
+	
+	public boolean isAdmin() {
+		for (Ruolo ruoloItem : ruoli) {
+			if (ruoloItem.getCodice().equals(Ruolo.ROLE_ADMIN))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean isAttivo() {
+		return this.stato != null && this.stato.equals(StatoUtente.ATTIVO);
+	}
+
+	public boolean isDisabilitato() {
+		return this.stato != null && this.stato.equals(StatoUtente.DISABILITATO);
 	}
 }

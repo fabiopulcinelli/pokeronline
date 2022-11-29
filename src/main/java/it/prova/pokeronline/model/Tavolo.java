@@ -41,6 +41,15 @@ public class Tavolo {
 	public Tavolo() {
 	}
 
+	public Tavolo(Long id, Integer esperienzaMin, Integer cifraMinima, String denominazione, Date dataCreazione) {
+		super();
+		this.id = id;
+		this.esperienzaMin = esperienzaMin;
+		this.cifraMinima = cifraMinima;
+		this.denominazione = denominazione;
+		this.dataCreazione = dataCreazione;
+	}
+	
 	public Tavolo(Integer esperienzaMin, Integer cifraMinima, String denominazione, Date dataCreazione) {
 		super();
 		this.esperienzaMin = esperienzaMin;
