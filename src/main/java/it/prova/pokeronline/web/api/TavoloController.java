@@ -1,7 +1,6 @@
 package it.prova.pokeronline.web.api;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -22,7 +21,6 @@ import it.prova.pokeronline.dto.TavoloDTO;
 import it.prova.pokeronline.dto.UtenteDTO;
 import it.prova.pokeronline.model.Ruolo;
 import it.prova.pokeronline.model.Tavolo;
-import it.prova.pokeronline.model.Utente;
 import it.prova.pokeronline.service.TavoloService;
 import it.prova.pokeronline.service.UtenteService;
 import it.prova.pokeronline.web.api.exception.IdNotNullForInsertException;
@@ -69,51 +67,22 @@ public class TavoloController {
 
 		return TavoloDTO.buildTavoloDTOFromModel(tavoloInserito, false);
 	}
-/*
+
 	@PutMapping("/{id}")
 	public TavoloDTO update(@Valid @RequestBody TavoloDTO tavoloInput, @PathVariable(required = true) Long id) {
 		Tavolo tavolo = tavoloService.caricaSingoloElementoEager(id);
 
 		if (tavolo == null)
 			throw new TavoloNotFoundException("Tavolo not found con id: " + id);
-
-		if (tavoloInput.getUtenteCreazione() == null || tavoloInput.getUtenteCreazione().getId() == null
-				|| tavoloInput.getUtenteCreazione().getId() < 1)
-			throw new UtenteCreazioneNonValidoException(
-					"UtenteCreazione non valid, inserire correttamente il campo UtenteCreazione");
-
-		// Per verificare il punto 3, confrontiamo l' id del utenteCreazione del tavolo
-		// caricato dal DB e l' id del utenteCreazione del tavoloInput
-		if (tavolo.getUtenteCreazione().getId() != tavoloInput.getUtenteCreazione().getId())
-			throw new UtenteCreazioneNonCorrispondenteAlPrecedente(
-					"Impossibile modificare L' UtenteCreazione inserendo un Utente Diverso, L' UtenteCreazione deve rimanere LO STESSO");
-
+		
 		tavoloInput.setId(id);
-		Tavolo tavoloAggiornato = tavoloService.aggiorna(tavoloInput.buildTavoloModel(), tavolo);
+		Tavolo tavoloAggiornato = tavoloService.aggiorna(tavoloInput.buildTavoloModel());
 		return TavoloDTO.buildTavoloDTOFromModel(tavoloAggiornato, false);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable(required = true) Long id) {
-		tavoloService.rimuovi(id);
+		tavoloService.rimuovi(tavoloService.caricaSingoloElementoEager(id));
 	}
-
-	@PostMapping("/search")
-	public List<TavoloDTO> search(@RequestBody TavoloDTO example) {
-		Utente inSessione = utenteService
-				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-		if (inSessione.getRuoli().stream().anyMatch(ruolo -> ruolo.getCodice().equals(Ruolo.ROLE_ADMIN)))
-			return TavoloDTO.createTavoloDTOListFromModelList(tavoloService.findByExample(example.buildTavoloModel()),
-					false);
-
-		if (example.getUtenteCreazione() != null)
-			throw new UtenteCreazionePresenteException(
-					"All interno del tavolo Example è presente un UtenteCreazione, Impossibile procedere, rimuovi l' utenteCreazione dall' example");
-
-		return TavoloDTO.createTavoloDTOListFromModelList(
-				tavoloService.findByExampleSpecialPlayer(example.buildTavoloModel(), inSessione.getId()), false);
-	}
-	
-	*/
 }
