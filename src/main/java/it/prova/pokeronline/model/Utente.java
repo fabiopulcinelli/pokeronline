@@ -58,20 +58,20 @@ public class Utente {
 		this.password = password;
 	}
 
-	public Utente(String username, String password, String nome, String cognome, Date dataRegistrazione) {
+	public Utente(String username, String password, String nome, String cognome, Date dataRegistrazione, Integer esperienzaAccumulata, Integer creditoAccumulato) {
 		this(username, password);
 		this.nome = nome;
 		this.cognome = cognome;
 		this.dataRegistrazione = dataRegistrazione;
+		this.esperienzaAccumulata = esperienzaAccumulata;
+		this.creditoAccumulato = creditoAccumulato;
 	}
 
 	public Utente(Long id, String username, String password, String nome, String cognome,
 			Date dateCreated, StatoUtente stato, Integer esperienzaAccumulata, Integer creditoAccumulato) {
-		this(username, password, nome, cognome, dateCreated);
+		this(username, password, nome, cognome, dateCreated, esperienzaAccumulata, creditoAccumulato);
 		this.id = id;
 		this.stato = stato;
-		this.esperienzaAccumulata = esperienzaAccumulata;
-		this.creditoAccumulato = creditoAccumulato;
 	}
 
 	public Long getId() {

@@ -50,7 +50,7 @@ public class UtenteController {
 				.collect(Collectors.toList());
 
 		return ResponseEntity.ok(new UtenteInfoJWTResponseDTO(utenteLoggato.getNome(), utenteLoggato.getCognome(),
-				utenteLoggato.getUsername(), ruoli));
+				utenteLoggato.getUsername(), ruoli, utenteLoggato.getEsperienzaAccumulata(), utenteLoggato.getCreditoAccumulato()));
 	}
 	
 	//gestione amministrazione

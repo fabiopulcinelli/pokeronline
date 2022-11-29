@@ -49,7 +49,7 @@ public class PokeronlineApplication implements CommandLineRunner {
 		// password non lo
 		// faccio qui perche gia lo fa il service di utente, durante inserisciNuovo
 		if (utenteServiceInstance.findByUsername("admin") == null) {
-			Utente admin = new Utente("admin", "admin", "Mario", "Rossi", new Date());
+			Utente admin = new Utente("admin", "admin", "Mario", "Rossi", new Date(), 100, 500);
 			admin.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", Ruolo.ROLE_ADMIN));
 			utenteServiceInstance.inserisciNuovo(admin);
 			// l'inserimento avviene come created ma io voglio attivarlo
@@ -57,7 +57,7 @@ public class PokeronlineApplication implements CommandLineRunner {
 		}
 
 		if (utenteServiceInstance.findByUsername("user") == null) {
-			Utente classicUser = new Utente("user", "user", "Antonio", "Verdi", new Date());
+			Utente classicUser = new Utente("user", "user", "Antonio", "Verdi", new Date(), 50, 250);
 			classicUser.getRuoli()
 					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Classic User", Ruolo.ROLE_CLASSIC_USER));
 			utenteServiceInstance.inserisciNuovo(classicUser);
@@ -65,8 +65,8 @@ public class PokeronlineApplication implements CommandLineRunner {
 			utenteServiceInstance.changeUserAbilitation(classicUser.getId());
 		}
 
-		if (utenteServiceInstance.findByUsername("user1") == null) {
-			Utente specialUser = new Utente("special", "special", "Antonioo", "Verdii", new Date());
+		if (utenteServiceInstance.findByUsername("special") == null) {
+			Utente specialUser = new Utente("special", "special", "Antonioo", "Verdii", new Date(), 10, 300);
 			specialUser.getRuoli()
 					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Special User", Ruolo.ROLE_SPECIAL_USER));
 			utenteServiceInstance.inserisciNuovo(specialUser);
@@ -75,7 +75,7 @@ public class PokeronlineApplication implements CommandLineRunner {
 		}
 
 		if (utenteServiceInstance.findByUsername("user2") == null) {
-			Utente classicUser2 = new Utente("user2", "user2", "Antoniooo", "Verdiii", new Date());
+			Utente classicUser2 = new Utente("user2", "user2", "Antoniooo", "Verdiii", new Date(), 200, 600);
 			classicUser2.getRuoli()
 					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Classic User", Ruolo.ROLE_CLASSIC_USER));
 			utenteServiceInstance.inserisciNuovo(classicUser2);
@@ -92,5 +92,10 @@ public class PokeronlineApplication implements CommandLineRunner {
 		if (tavoloService.findByDenominazione(tavolo1.getDenominazione()).isEmpty())
 			tavoloService.inserisciNuovo(tavolo1);
 		
+		Tavolo tavolo2 = new Tavolo(50, 200, "Tavolo 2", new Date());
+		tavolo2.setCreatore(utenteServiceInstance.findByUsername("special"));
+		
+		if (tavoloService.findByDenominazione(tavolo2.getDenominazione()).isEmpty())
+			tavoloService.inserisciNuovo(tavolo2);
 	}
 }
