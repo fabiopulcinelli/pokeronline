@@ -46,7 +46,7 @@ public class TavoloController {
 
 		return TavoloDTO.createTavoloDTOListFromModelList(tavoloService.listAllElements(false), true);
 	}
-/*
+
 	@GetMapping("/{id}")
 	public TavoloDTO findById(@PathVariable(value = "id", required = true) long id) {
 		Tavolo tavolo = tavoloService.caricaSingoloElemento(id);
@@ -54,7 +54,7 @@ public class TavoloController {
 		if (tavolo == null)
 			throw new TavoloNotFoundException("Tavolo not found con id: " + id);
 
-		return TavoloDTO.buildTavoloDTOFromModelNoPassword(tavolo, true);
+		return TavoloDTO.buildTavoloDTOFromModel(tavolo, true);
 	}
 
 	@PostMapping
@@ -63,17 +63,13 @@ public class TavoloController {
 		if (tavoloInput.getId() != null)
 			throw new IdNotNullForInsertException("Non è ammesso fornire un id per la creazione");
 
-		if (tavoloInput.getUtenteCreazione() != null)
-			throw new UtenteCreazioneNotNullException(
-					"Non è ammesso fornire l' UtenteCreazione, impossibile Creare un tavolo per un Utente Specifico");
-
-		tavoloInput.setUtenteCreazione(UtenteDTO.buildUtenteDTOFromModelNoPassword(
+		tavoloInput.setCreatore(UtenteDTO.buildUtenteDTOFromModel(
 				utenteService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())));
 		Tavolo tavoloInserito = tavoloService.inserisciNuovo(tavoloInput.buildTavoloModel());
 
 		return TavoloDTO.buildTavoloDTOFromModel(tavoloInserito, false);
 	}
-
+/*
 	@PutMapping("/{id}")
 	public TavoloDTO update(@Valid @RequestBody TavoloDTO tavoloInput, @PathVariable(required = true) Long id) {
 		Tavolo tavolo = tavoloService.caricaSingoloElementoEager(id);
