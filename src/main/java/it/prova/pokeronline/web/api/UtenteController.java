@@ -104,6 +104,9 @@ public class UtenteController {
 
 		if (utente == null)
 			throw new UtenteNotFoundException("Utente not found con id: " + id);
-		utenteService.rimuovi(utente);
+		
+		// non rimuovo setto a disabilitato
+		//utenteService.rimuovi(utente);
+		utenteService.changeUserAbilitation(id);
 	}
 }
