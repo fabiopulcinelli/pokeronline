@@ -68,7 +68,7 @@ public class UtenteController {
 		if (utenteInput.getId() != null)
 			throw new IdNotNullForInsertException("Non è ammesso fornire un id per la creazione");
 
-		Utente utenteInserito = utenteService.inserisciNuovo(utenteInput.buildUtenteModel(true,false,false));
+		Utente utenteInserito = utenteService.inserisciNuovo(utenteInput.buildUtenteModel(true));
 		return UtenteDTO.buildUtenteDTOFromModel(utenteInserito);
 	}
 	
@@ -94,7 +94,7 @@ public class UtenteController {
 			throw new UtenteNotFoundException("Utente not found con id: " + id);
 
 		utenteInput.setId(id);
-		Utente utenteAggiornato = utenteService.aggiorna(utenteInput.buildUtenteModel(true,false,false));
+		Utente utenteAggiornato = utenteService.aggiorna(utenteInput.buildUtenteModel(true));
 		return UtenteDTO.buildUtenteDTOFromModel(utenteAggiornato);
 	}
 	

@@ -11,12 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "agenda")
+@Table(name = "tavolo")
 public class Tavolo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +31,11 @@ public class Tavolo {
 	@Column(name = "dataCreazione")
 	private Date dataCreazione;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tavolo")
+	@OneToMany
 	private Set<Utente> giocatori = new HashSet<Utente>(0);
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "utente_id", nullable = false)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "creatore_id", referencedColumnName = "id", nullable = false)
 	private Utente creatore;
 	
 	public Tavolo() {

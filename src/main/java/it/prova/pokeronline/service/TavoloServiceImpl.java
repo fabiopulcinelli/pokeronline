@@ -8,11 +8,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.pokeronline.model.Tavolo;
 import it.prova.pokeronline.repository.tavolo.TavoloRepository;
+import it.prova.pokeronline.repository.utente.UtenteRepository;
 
 @Service
 public class TavoloServiceImpl implements TavoloService {
 	@Autowired
 	private TavoloRepository repository;
+	
+	@Autowired
+	private UtenteRepository utenteRepository;
 
 	public List<Tavolo> listAllElements(boolean eager) {
 		if (eager)
@@ -47,5 +51,9 @@ public class TavoloServiceImpl implements TavoloService {
 	@Override
 	public List<Tavolo> findByDenominazione(String denominazione) {
 		return repository.findByDenominazione(denominazione);
+	}
+	
+	public List<Tavolo> findAllSpecial(String name) {
+		return repository.findAllSpecial(utenteRepository.findByUsername(name).get().getId());
 	}
 }

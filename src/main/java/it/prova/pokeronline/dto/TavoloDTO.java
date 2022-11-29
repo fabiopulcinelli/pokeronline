@@ -117,42 +117,44 @@ public class TavoloDTO {
 
 	public Tavolo buildTavoloModel() {
 		Tavolo result = new Tavolo(this.id, this.esperienzaMin, this.cifraMinima, this.denominazione, this.dataCreazione);
-		if (this.creatore != null)
-			result.setCreatore(this.creatore.buildUtenteModel(true,true,true));
-		if (!this.giocatori.isEmpty())
-			
-			utenti = this.giocatori.stream().map(utenteEntity -> {
-				return utenteEntity.buildUtenteModel(true,true,true);
-			}).collect(Collectors.toSet());
-			
-			result.setGiocatori(utenti);
 
+		if(this.giocatori.size() > 1) {
+			Set<Utente> set = result.getGiocatori();
+			this.giocatori.forEach(utente -> set.add(utente.buildUtenteModel(false)));
+		}
+		
+		if(this.creatore != null)
+			result.setCreatore(this.creatore.buildUtenteModel(false));
+			
 		return result;
 	}
 
-	public static TavoloDTO buildTavoloDTOFromModel(Tavolo tavoloModel, boolean includeCreatore, boolean includeGiocatori) {
+	public static TavoloDTO buildTavoloDTOFromModel(Tavolo tavoloModel, boolean includeGiocatori) {
 		TavoloDTO result = new TavoloDTO(tavoloModel.getId(), tavoloModel.getEsperienzaMin(), tavoloModel.getCifraMinima(),
 				tavoloModel.getDenominazione(), tavoloModel.getDataCreazione());
 
-		if (includeCreatore)
+		if (tavoloModel.getCreatore() != null && tavoloModel.getCreatore().getId() != null
+				&& tavoloModel.getCreatore().getId() > 0) {
 			result.setCreatore(UtenteDTO.buildUtenteDTOFromModel(tavoloModel.getCreatore()));
-		
-		if (includeGiocatori)
-			result.setGiocatori(UtenteDTO.createUtenteDTOSetFromModelSet(tavoloModel.getGiocatori()));
+		}
 
+		if (tavoloModel.getGiocatori() != null && !tavoloModel.getGiocatori().isEmpty()) {
+			result.setGiocatori(UtenteDTO.createUtenteDTOSetFromModelSet(tavoloModel.getGiocatori()));
+		}
+		
 		return result;
 	}
 
-	public static List<TavoloDTO> createTavoloDTOListFromModelList(List<Tavolo> modelListInput, boolean includeCreatore, boolean includeGiocatori) {
+	public static List<TavoloDTO> createTavoloDTOListFromModelList(List<Tavolo> modelListInput, boolean includeGiocatori) {
 		return modelListInput.stream().map(tavoloEntity -> {
 			
-			return TavoloDTO.buildTavoloDTOFromModel(tavoloEntity, includeCreatore, includeGiocatori);
+			return TavoloDTO.buildTavoloDTOFromModel(tavoloEntity, includeGiocatori);
 		}).collect(Collectors.toList());
 	}
 
-	public static Set<TavoloDTO> createTavoloDTOSetFromModelSet(Set<Tavolo> modelListInput, boolean includeCreatore, boolean includeGiocatori) {
+	public static Set<TavoloDTO> createTavoloDTOSetFromModelSet(Set<Tavolo> modelListInput, boolean includeGiocatori) {
 		return modelListInput.stream().map(tavoloEntity -> {
-			return TavoloDTO.buildTavoloDTOFromModel(tavoloEntity, includeCreatore, includeGiocatori);
+			return TavoloDTO.buildTavoloDTOFromModel(tavoloEntity, includeGiocatori);
 		}).collect(Collectors.toSet());
 	}
 }

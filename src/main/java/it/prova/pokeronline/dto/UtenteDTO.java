@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import it.prova.pokeronline.model.Tavolo;
 import it.prova.pokeronline.model.Ruolo;
 import it.prova.pokeronline.model.StatoUtente;
 import it.prova.pokeronline.model.Utente;
@@ -43,10 +42,6 @@ public class UtenteDTO {
 	private Integer creditoAccumulato;
 
 	private Long[] ruoliIds;
-	
-	private Long[] tavoliIds;
-	
-	private Long tavoloId;
 
 	public UtenteDTO() {
 	}
@@ -156,31 +151,11 @@ public class UtenteDTO {
 		this.creditoAccumulato = creditoAccumulato;
 	}
 
-	public Long[] getTavoliIds() {
-		return tavoliIds;
-	}
-
-	public void setTavoliIds(Long[] tavoliIds) {
-		this.tavoliIds = tavoliIds;
-	}
-
-	public Long getTavoloId() {
-		return tavoloId;
-	}
-
-	public void setTavoloId(Long tavoloId) {
-		this.tavoloId = tavoloId;
-	}
-
-	public Utente buildUtenteModel(boolean includeIdRoles, boolean includeIdTavoliCreati, boolean includeIdTavoloGioco) {
+	public Utente buildUtenteModel(boolean includeIdRoles) {
 		Utente result = new Utente(this.id, this.username, this.password, this.nome, this.cognome,
 				this.dataRegistazione, this.stato, this.esperienzaAccumulata, this.creditoAccumulato);
 		if (includeIdRoles && ruoliIds != null)
 			result.setRuoli(Arrays.asList(ruoliIds).stream().map(id -> new Ruolo(id)).collect(Collectors.toSet()));
-		if (includeIdTavoliCreati && tavoliIds != null)
-			result.setTavoliCreati(Arrays.asList(tavoliIds).stream().map(id -> new Tavolo(id)).collect(Collectors.toSet()));
-		if (includeIdTavoloGioco && tavoloId != null)
-			result.setTavoloGioco(new Tavolo(id));
 
 		return result;
 	}
@@ -193,13 +168,6 @@ public class UtenteDTO {
 		if (!utenteModel.getRuoli().isEmpty())
 			result.ruoliIds = utenteModel.getRuoli().stream().map(r -> r.getId()).collect(Collectors.toList())
 					.toArray(new Long[] {});
-		
-		if (!utenteModel.getTavoliCreati().isEmpty())
-			result.tavoliIds = utenteModel.getTavoliCreati().stream().map(r -> r.getId()).collect(Collectors.toList())
-					.toArray(new Long[] {});
-		
-		if (utenteModel.getTavoloGioco()!=null)
-			result.tavoloId = utenteModel.getTavoloGioco().getId();
 
 		return result;
 	}

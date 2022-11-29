@@ -18,4 +18,6 @@ public interface TavoloService {
 	void rimuovi(Tavolo tavoloInstance);
 
 	List<Tavolo> findByDenominazione(String denominazione);
+	
+	List<Tavolo> findAllSpecial(String name);
 }
