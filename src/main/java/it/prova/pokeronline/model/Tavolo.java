@@ -15,20 +15,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "agenda")
-@Data
 public class Tavolo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "esperienzaMin")
-	private int esperienzaMin;
+	private Integer esperienzaMin;
 	@Column(name = "cifraMinima")
-	private int cifraMinima;
+	private Integer cifraMinima;
 	@Column(name = "denominazione")
 	private String denominazione;
 	@Column(name = "dataCreazione")
@@ -44,7 +41,7 @@ public class Tavolo {
 	public Tavolo() {
 	}
 
-	public Tavolo(int esperienzaMin, int cifraMinima, String denominazione, Date dataCreazione) {
+	public Tavolo(Integer esperienzaMin, Integer cifraMinima, String denominazione, Date dataCreazione) {
 		super();
 		this.esperienzaMin = esperienzaMin;
 		this.cifraMinima = cifraMinima;
@@ -55,5 +52,61 @@ public class Tavolo {
 	public Tavolo(Long id) {
 		super();
 		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Integer getEsperienzaMin() {
+		return esperienzaMin;
+	}
+
+	public void setEsperienzaMin(Integer esperienzaMin) {
+		this.esperienzaMin = esperienzaMin;
+	}
+
+	public Integer getCifraMinima() {
+		return cifraMinima;
+	}
+
+	public void setCifraMinima(Integer cifraMinima) {
+		this.cifraMinima = cifraMinima;
+	}
+
+	public String getDenominazione() {
+		return denominazione;
+	}
+
+	public void setDenominazione(String denominazione) {
+		this.denominazione = denominazione;
+	}
+
+	public Date getDataCreazione() {
+		return dataCreazione;
+	}
+
+	public void setDataCreazione(Date dataCreazione) {
+		this.dataCreazione = dataCreazione;
+	}
+
+	public Set<Utente> getGiocatori() {
+		return giocatori;
+	}
+
+	public void setGiocatori(Set<Utente> giocatori) {
+		this.giocatori = giocatori;
+	}
+
+	public Utente getCreatore() {
+		return creatore;
+	}
+
+	public void setCreatore(Utente creatore) {
+		this.creatore = creatore;
 	}
 }

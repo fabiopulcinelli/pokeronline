@@ -19,11 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "utente")
-@Data
 public class Utente {
 
 	@Id
@@ -46,10 +43,10 @@ public class Utente {
 	private StatoUtente stato;
 	
 	@Column(name = "esperienzaAccumulata")
-	private int esperienzaAccumulata;
+	private Integer esperienzaAccumulata;
 	
 	@Column(name = "creditoAccumulato")
-	private int creditoAccumulato;
+	private Integer creditoAccumulato;
 
 	@ManyToMany
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
@@ -83,5 +80,101 @@ public class Utente {
 		this(username, password, nome, cognome, dateCreated);
 		this.id = id;
 		this.stato = stato;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCognome() {
+		return cognome;
+	}
+
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
+
+	public Date getDataRegistrazione() {
+		return dataRegistrazione;
+	}
+
+	public void setDataRegistrazione(Date dataRegistrazione) {
+		this.dataRegistrazione = dataRegistrazione;
+	}
+
+	public StatoUtente getStato() {
+		return stato;
+	}
+
+	public void setStato(StatoUtente stato) {
+		this.stato = stato;
+	}
+
+	public Integer getEsperienzaAccumulata() {
+		return esperienzaAccumulata;
+	}
+
+	public void setEsperienzaAccumulata(Integer esperienzaAccumulata) {
+		this.esperienzaAccumulata = esperienzaAccumulata;
+	}
+
+	public Integer getCreditoAccumulato() {
+		return creditoAccumulato;
+	}
+
+	public void setCreditoAccumulato(Integer creditoAccumulato) {
+		this.creditoAccumulato = creditoAccumulato;
+	}
+
+	public Set<Ruolo> getRuoli() {
+		return ruoli;
+	}
+
+	public void setRuoli(Set<Ruolo> ruoli) {
+		this.ruoli = ruoli;
+	}
+
+	public Set<Tavolo> getTavoliCreati() {
+		return tavoliCreati;
+	}
+
+	public void setTavoliCreati(Set<Tavolo> tavoliCreati) {
+		this.tavoliCreati = tavoliCreati;
+	}
+
+	public Tavolo getTavoloGioco() {
+		return tavoloGioco;
+	}
+
+	public void setTavoloGioco(Tavolo tavoloGioco) {
+		this.tavoloGioco = tavoloGioco;
 	}
 }
