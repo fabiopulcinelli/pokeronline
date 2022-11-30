@@ -20,4 +20,8 @@ public interface TavoloService {
 	List<Tavolo> findByDenominazione(String denominazione);
 	
 	List<Tavolo> findAllSpecial(String name);
+	
+	Tavolo findByIdSpecial(Long idTavolo, Long idUtente);
+	
+	Tavolo ultimoGame(Long id);
 }

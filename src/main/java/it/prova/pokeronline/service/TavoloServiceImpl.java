@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.prova.pokeronline.model.Tavolo;
 import it.prova.pokeronline.repository.tavolo.TavoloRepository;
 import it.prova.pokeronline.repository.utente.UtenteRepository;
+import it.prova.pokeronline.web.api.exception.NonInTavoloException;
 
 @Service
 public class TavoloServiceImpl implements TavoloService {
@@ -55,5 +56,21 @@ public class TavoloServiceImpl implements TavoloService {
 	
 	public List<Tavolo> findAllSpecial(String name) {
 		return repository.findAllSpecial(utenteRepository.findByUsername(name).get().getId());
+	}
+	
+	public Tavolo findByIdSpecial(Long idTavolo, Long idUtente) {
+		return repository.findByIdSpecial(idTavolo, idUtente);
+	}
+	
+	@Override
+	@Transactional
+	public Tavolo ultimoGame(Long id) {
+		Tavolo result = repository.findByGiocatoriId(id);
+
+		// Se non sono in nessun tavolo
+		if (result == null)
+			throw new NonInTavoloException("Non si e' attualmente in nessun tavolo");
+
+		return result;
 	}
 }
