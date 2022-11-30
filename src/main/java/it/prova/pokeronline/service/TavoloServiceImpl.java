@@ -68,7 +68,22 @@ public class TavoloServiceImpl implements TavoloService {
 	@Override
 	@Transactional
 	public Tavolo ultimoGame(Long id) {
-		Tavolo result = repository.findByGiocatoriId(id);
+		
+		Utente utenteLoggato = utenteRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get();
+		
+		boolean tf = false;
+		for(Tavolo tavoloItem: repository.findAllTavoloEager()) {
+			for(Utente giocatoriItem: tavoloItem.getGiocatori()) {
+				if(giocatoriItem.getId()==utenteLoggato.getId()) {
+					tf = true;
+				}
+			}
+		}
+		
+		Tavolo result = null;
+		
+		if(tf)
+			result = repository.findByGiocatoriId(id);
 
 		return result;
 	}
@@ -82,6 +97,18 @@ public class TavoloServiceImpl implements TavoloService {
 
 		// Prendo l' utente In Sessione.
 		Utente utenteLoggato = utenteRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get();
+		
+		boolean tf = false;
+		for(Tavolo tavoloItem: repository.findAllTavoloEager()) {
+			for(Utente giocatoriItem: tavoloItem.getGiocatori()) {
+				if(giocatoriItem.getId()==utenteLoggato.getId()) {
+					tf = true;
+				}
+			}
+		}
+		
+		if(tf==false)
+			throw new NonInTavoloException("Impossibile abbandonare una partite se non si e' in nessun tavolo");
 		
 		tavoloInstance.getGiocatori().remove(utenteLoggato);
 

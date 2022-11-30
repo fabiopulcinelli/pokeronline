@@ -59,9 +59,14 @@ public class PlayController {
 		Utente utenteLoggato = utenteService.findByUsername(username);
 		
 		// Se non sono in nessun tavolo
-		Tavolo result = tavoloService.ultimoGame(utenteLoggato.getId());
-		if (result == null)
+		Tavolo result = null;
+		try {
+			result = tavoloService.ultimoGame(utenteLoggato.getId());
+		}
+		catch(Exception e) {
 			throw new NonInTavoloException("Non si e' attualmente in nessun tavolo");
+		}
+			
 		
 		return TavoloDTO.buildTavoloDTOFromModel(result, true);
 	}
@@ -73,7 +78,13 @@ public class PlayController {
 		// estraggo le info dal principal
 		Utente utenteLoggato = utenteService.findByUsername(username);
 		
-		Long idTavolo = tavoloService.ultimoGame(utenteLoggato.getId()).getId();
+		Long idTavolo = null;
+		try {
+			idTavolo = tavoloService.ultimoGame(utenteLoggato.getId()).getId();
+		}
+		catch(Exception e) {
+			throw new NonInTavoloException("Non si e' attualmente in nessun tavolo");
+		}
 		
 		return UtenteDTO.buildUtenteDTOFromModel(tavoloService.abbandonaPartita(idTavolo));
 	}
