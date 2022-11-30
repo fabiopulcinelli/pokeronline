@@ -27,4 +27,6 @@ public interface TavoloService {
 	Tavolo ultimoGame(Long id);
 	
 	Utente abbandonaPartita(Long idTavolo);
+	
+	List<Tavolo> listEsperienzaMin(Integer min);
 }

@@ -23,4 +23,7 @@ public interface TavoloRepository extends CrudRepository<Tavolo, Long> {
 	Tavolo findByIdSpecial(Long idTavolo, Long idUtente);
 	
 	Tavolo findByGiocatoriId(Long id);
+	
+	@Query("select t from Tavolo t WHERE t.esperienzaMin <= ?1")
+	List<Tavolo> findAllByEsperienzaMin(Integer min);
 }

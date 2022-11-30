@@ -95,4 +95,9 @@ public class TavoloServiceImpl implements TavoloService {
 
 		return utenteLoggato;
 	}
+	
+	@Transactional
+	public List<Tavolo> listEsperienzaMin(Integer min) {
+		return (List<Tavolo>) repository.findAllByEsperienzaMin(min);
+	}
 }

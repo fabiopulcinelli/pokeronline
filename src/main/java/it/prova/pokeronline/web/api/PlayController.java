@@ -70,4 +70,20 @@ public class PlayController {
 		
 		return UtenteDTO.buildUtenteDTOFromModel(tavoloService.abbandonaPartita(idTavolo));
 	}
+	
+	// tutti i tavoli con esperienza minima minore o uguale alla mia
+	@GetMapping
+	public List<TavoloDTO> ricerca() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		// estraggo le info dal principal
+		Utente utenteLoggato = utenteService.findByUsername(username);
+		
+		List<TavoloDTO> tavoliTrovati = TavoloDTO.createTavoloDTOListFromModelList(tavoloService.listEsperienzaMin(utenteLoggato.getEsperienzaAccumulata()), true);
+		
+		return tavoliTrovati;
+	}
+
+	
+	
 }
