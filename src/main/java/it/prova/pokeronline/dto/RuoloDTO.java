@@ -5,7 +5,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.prova.pokeronline.model.Ruolo;
+import lombok.Data;
 
+@Data
 public class RuoloDTO {
 
 	private Long id;
@@ -15,30 +17,6 @@ public class RuoloDTO {
 	public RuoloDTO(Long id, String descrizione, String codice) {
 		this.id = id;
 		this.descrizione = descrizione;
-		this.codice = codice;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getDescrizione() {
-		return descrizione;
-	}
-
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
-	}
-
-	public String getCodice() {
-		return codice;
-	}
-
-	public void setCodice(String codice) {
 		this.codice = codice;
 	}
 
