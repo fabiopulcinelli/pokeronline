@@ -28,5 +28,7 @@ public interface TavoloService {
 	
 	Utente abbandonaPartita(Long idTavolo);
 	
+	void entraPartita(Long idTavolo);
+	
 	List<Tavolo> listEsperienzaMin(Integer min);
 }

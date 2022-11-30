@@ -70,10 +70,6 @@ public class TavoloServiceImpl implements TavoloService {
 	public Tavolo ultimoGame(Long id) {
 		Tavolo result = repository.findByGiocatoriId(id);
 
-		// Se non sono in nessun tavolo
-		if (result == null)
-			throw new NonInTavoloException("Non si e' attualmente in nessun tavolo");
-
 		return result;
 	}
 	
@@ -94,6 +90,20 @@ public class TavoloServiceImpl implements TavoloService {
 		utenteRepository.save(utenteLoggato);
 
 		return utenteLoggato;
+	}
+	
+	@Transactional
+	public void entraPartita(Long idTavolo) {
+		// Verifico che il tavolo esista.
+		Tavolo tavoloInstance = repository.findById(idTavolo).orElse(null);
+		if (tavoloInstance == null)
+			throw new TavoloNotFoundException("Tavolo con id: " + idTavolo + " not Found");
+
+		// Prendo l' utente In Sessione.
+		Utente utenteLoggato = utenteRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get();
+		
+		tavoloInstance.getGiocatori().add(utenteLoggato);
+		repository.save(tavoloInstance);
 	}
 	
 	@Transactional
