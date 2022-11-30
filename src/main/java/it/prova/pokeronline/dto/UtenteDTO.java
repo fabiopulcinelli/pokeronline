@@ -40,8 +40,10 @@ public class UtenteDTO {
 
 	private StatoUtente stato;
 	
+	@NotBlank(message = "{esperienzaAccumulata.notblank}")
 	private Integer esperienzaAccumulata;
 	
+	@NotBlank(message = "{creditoAccumulato.notblank}")
 	private Integer creditoAccumulato;
 
 	private Long[] ruoliIds;
