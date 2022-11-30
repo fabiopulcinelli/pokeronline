@@ -3,13 +3,16 @@ package it.prova.pokeronline.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.pokeronline.model.Tavolo;
+import it.prova.pokeronline.model.Utente;
 import it.prova.pokeronline.repository.tavolo.TavoloRepository;
 import it.prova.pokeronline.repository.utente.UtenteRepository;
 import it.prova.pokeronline.web.api.exception.NonInTavoloException;
+import it.prova.pokeronline.web.api.exception.TavoloNotFoundException;
 
 @Service
 public class TavoloServiceImpl implements TavoloService {
@@ -72,5 +75,24 @@ public class TavoloServiceImpl implements TavoloService {
 			throw new NonInTavoloException("Non si e' attualmente in nessun tavolo");
 
 		return result;
+	}
+	
+	@Transactional
+	public Utente abbandonaPartita(Long idTavolo) {
+		// Verifico che il tavolo esista.
+		Tavolo tavoloInstance = repository.findById(idTavolo).orElse(null);
+		if (tavoloInstance == null)
+			throw new TavoloNotFoundException("Tavolo con id: " + idTavolo + " not Found");
+
+		// Prendo l' utente In Sessione.
+		Utente utenteLoggato = utenteRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get();
+		
+		tavoloInstance.getGiocatori().remove(utenteLoggato);
+
+		utenteLoggato.setEsperienzaAccumulata(utenteLoggato.getEsperienzaAccumulata() + 1);
+		repository.save(tavoloInstance);
+		utenteRepository.save(utenteLoggato);
+
+		return utenteLoggato;
 	}
 }

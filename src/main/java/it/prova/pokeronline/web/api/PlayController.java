@@ -58,4 +58,16 @@ public class PlayController {
 		
 		return TavoloDTO.buildTavoloDTOFromModel(tavoloService.ultimoGame(utenteLoggato.getId()), true);
 	}
+	
+	@PostMapping("abbandonaPartita")
+	public UtenteDTO abbandonaPartita() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		// estraggo le info dal principal
+		Utente utenteLoggato = utenteService.findByUsername(username);
+		
+		Long idTavolo = tavoloService.ultimoGame(utenteLoggato.getId()).getId();
+		
+		return UtenteDTO.buildUtenteDTOFromModel(tavoloService.abbandonaPartita(idTavolo));
+	}
 }
